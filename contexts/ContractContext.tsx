@@ -18,7 +18,7 @@ const ContractProvider = ({
   const [accounts, setAccounts] = useState([]);
   useEffect(() => {
     //Blockchain config
-    const contractAddress = "0xdeEFdB447B742E326b524077B09f62a2D149db94";
+    const contractAddress = "0x2Ba0674286dE27A0909a1e4b36ea2Fa3947e4C1C";
     const noteContract = new web3.eth.Contract(
       contractABI.abi,
       contractAddress

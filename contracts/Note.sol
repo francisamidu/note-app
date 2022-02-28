@@ -15,7 +15,6 @@ contract Note{
 
     mapping (address=>User) _users;
 
-    NoteItem[] _notes;
     uint _noteCount;
 
     event NoteCreated(uint id, string text, string createdAt,uint index);
@@ -24,15 +23,12 @@ contract Note{
 
     event NoteDeleted(uint id);
 
-    modifier onlyOwner(address _owner){
-        require(msg.sender == _owner,"Only the owner is authorized to perform this action");
+    modifier onlyOwner(){
+        require(msg.sender == _users[msg.sender]._account,"Only the owner is authorized to perform this action");
         _;
     }
     constructor(){
-        users[msg.sender].address = NoteItem({
-            _notes:[],
-            address:msg.sender
-        }) 
+        _users[msg.sender]._account = msg.sender;
     }
 
     function createNote(string memory _text, string memory _createdAt)public onlyOwner() returns(uint id,
@@ -46,8 +42,12 @@ contract Note{
             text: _text,
             createdAt: _createdAt,
             deleted: false
-        });   
-        _users[msg.sender]._notes[_noteCount] = noteItem;
+        });
+        if(_users[msg.sender]._notes.length < 1){
+            _users[msg.sender]._notes[0] = noteItem;
+        }else{
+            _users[msg.sender]._notes.push(noteItem);
+        }
         emit NoteCreated(noteItem.id, noteItem.text, noteItem.createdAt, _noteCount - 1);
         return (
             noteItem.id,
@@ -57,13 +57,13 @@ contract Note{
         );
     }
 
-    function updateNote(uint _id, string memory _text) public returns(uint id,
+    function updateNote(uint _id, string memory _text) public onlyOwner() returns(uint id,
         string memory text,
         string memory createdAt,
         bool deleted) {        
-        NoteItem memory noteItem = _users[msg.sender]._notes[_noteCount];
+        NoteItem memory noteItem = _users[msg.sender]._notes[_id];
         noteItem.text = _text;
-        _users[msg.sender]._notes[_noteCount] = noteItem;
+        _users[msg.sender]._notes[_id] = noteItem;
         emit NoteUpdated(
             noteItem.id,
             noteItem.text
@@ -76,8 +76,8 @@ contract Note{
         );
     }
 
-    function removeNote(uint _id) public {
-        NoteItem memory noteItem = _users[msg.sender]._notes[_noteCount];
+    function removeNote(uint _id) public onlyOwner() {
+        NoteItem memory noteItem = _users[msg.sender]._notes[_id];
         noteItem.deleted = true;
         emit NoteDeleted(_id);
     }
@@ -86,7 +86,7 @@ contract Note{
         string memory text,
         string memory createdAt,
         bool deleted){
-        NoteItem memory noteItem = _users[msg.sender]._notes[_noteCount];
+        NoteItem memory noteItem = _users[msg.sender]._notes[_id];
         return (
             noteItem.id,
             noteItem.text,
@@ -96,7 +96,7 @@ contract Note{
     }
     
     function getAllNotes() public view returns(NoteItem[] memory notes){
-        return _users[msg.sender]._notes[_noteCount];
+        return _users[msg.sender]._notes;
     }
 
     function getNoteCount() public view returns(uint count){

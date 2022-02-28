@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-const AddNote = ({ addNote }: any) => {
+const AddNote = ({ addNote, note, updateNote }: any) => {
   const [text, setText] = useState("");
+  const textarea = useRef(null);
+  useEffect(() => {
+    setText(note.text);
+    textarea?.current?.focus();
+  }, [note]);
   let characterLimit = 200;
   const handleAddNote = () => {
     if (text.trim().length) {
@@ -18,6 +23,7 @@ const AddNote = ({ addNote }: any) => {
         cols={10}
         rows={8}
         value={text}
+        ref={textarea}
         onChange={(event) => {
           if (characterLimit - event.target.value.length >= 0) {
             setText(event.target.value);
@@ -28,10 +34,16 @@ const AddNote = ({ addNote }: any) => {
       <div className="flex items-center justify-between">
         <small>{characterLimit - text.length} characters remaining</small>
         <button
-          onClick={handleAddNote}
+          onClick={() => {
+            if (note.text) {
+              updateNote();
+            } else {
+              handleAddNote();
+            }
+          }}
           className=" ml-2 py-2 px-6 rounded-sm bg-gray-200 border-none outline-none cursor-pointer flex flex-row items-center justify-center min-h-[30px] min-w-[100px]"
         >
-          Save
+          {note.text ? "Update" : "Save"}
         </button>
       </div>
     </div>

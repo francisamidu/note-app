@@ -1,0 +1,33 @@
+{
+	"name": "ImShare",
+	"description": "ImShare is an image sharing app",
+	"main": "index.js",
+	"author": "Francis Amidu",
+	"license": "MIT",
+	"dependencies": {
+		"@types/node": "*",
+		"@types/react": "*",
+		"axios": "*",
+		"classnames": "^2.3.1",
+		"next": "*",
+		"react": "*",
+		"react-dom": "^*",
+		"react-icons": "*",
+		"react-toastify": "^8.2.0",
+		"sass": "^1.45.1",
+		"tailwindcss": "*",
+		"tsconfig-paths-webpack-plugin": "*",
+		"typescript": "*",
+		"web3": "^1.7.0"
+	},
+	"devDependencies": {
+		"@types/react-dom": "^17.0.11",
+		"autoprefixer": "*",
+		"postcss": "*"
+	},
+	"scripts": {
+		"serve": "next",
+		"build": "next build",
+		"start": "next start"
+	}
+}

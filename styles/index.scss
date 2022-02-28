@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=FreeSans:wght@500;600&display=swap");
+
+:root {
+  --color-blue: #0563b1;
+  --color-dark-blue: #022133;
+  --color-blue-var: #0977d1;
+}
+
+* {
+  font-family: "FreeSans";
+}
+
+a {
+  outline: none !important;
+}
+
+.note-list {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1em;
+}

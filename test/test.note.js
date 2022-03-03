@@ -14,14 +14,17 @@ contract("deploy", (accounts) => {
     assert.notEqual(noteContract.address, null);
   });
   it("Should create a new note", async () => {
-    const response = await noteContract.createNote("Learn solidity");
-    index = response.logs[0].args.index;
+    const response = await noteContract.createNote(
+      "Learn solidity",
+      new Date().toDateString()
+    );
+    index = 1;
     const count = await noteContract.getNoteCount();
     assert.equal(count, 1);
   });
 
   it("Should fetch a single note", async () => {
-    const note = await noteContract.getNote(index);
+    const note = await noteContract.getNote(index - 1);
     assert.notEqual(note, null);
   });
 
@@ -38,7 +41,7 @@ contract("deploy", (accounts) => {
   });
 
   it("Should delete a note", async () => {
-    await noteContract.deleteNote(index);
+    await noteContract.removeNote(index - 1);
     const count = await noteContract.getNoteCount();
     assert.equal(count.toString(), "0");
   });

@@ -1,6 +1,6 @@
 {
-	"name": "ImShare",
-	"description": "ImShare is an image sharing app",
+	"name": "Noter",
+	"description": "Noter is a note-taking app",
 	"main": "index.js",
 	"author": "Francis Amidu",
 	"license": "MIT",
@@ -9,6 +9,7 @@
 		"@types/react": "*",
 		"axios": "*",
 		"classnames": "^2.3.1",
+		"date-fns": "^2.28.0",
 		"next": "*",
 		"react": "*",
 		"react-dom": "^*",

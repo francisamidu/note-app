@@ -4,4 +4,4 @@ import millify from "./millify";
 
 export { millify, uid };
 
-export const { formatDate } = Formatter;
+export const { formatDate, formatNote } = Formatter;

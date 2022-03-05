@@ -8,7 +8,7 @@ const SearchComponent = ({ handleSearch }) => {
     handleSearch(query);
   }, [query]);
   return (
-    <form className="relative w-[330px]">
+    <form className="relative w-[300px] mx-3 sm:mx-0">
       <input
         type="text"
         className="w-full rounded-md border-[1px] solid border-[#eee] outline-none px-3  pr-6 py-1 placeholder-[#555]"

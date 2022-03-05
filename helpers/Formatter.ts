@@ -22,5 +22,14 @@ class Formatter {
     const year = newDate.getFullYear();
     return `${day}, ${month} ${year}`;
   }
+  static formatNote(note: any) {
+    return {
+      id: note["id"],
+      createdAt: note["createdAt"],
+      deleted: note["deleted"],
+      text: note["text"],
+      pinned: note["pinned"],
+    };
+  }
 }
 export default Formatter;

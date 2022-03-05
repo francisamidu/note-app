@@ -2,6 +2,8 @@ import { AppProps } from "next/app";
 import { PropsWithChildren, ReactElement, ReactNode } from "react";
 import "../styles/index.scss";
 import "../node_modules/tailwindcss/tailwind.css";
+import "react-toastify/dist/ReactToastify.css";
+
 import {
   AppContextProvider,
   ContractProvider,

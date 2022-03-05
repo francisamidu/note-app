@@ -19,7 +19,7 @@ const Nav = ({ setDarkMode, darkMode, notes, setNotes }) => {
     <nav
       className={`bg-white ${
         darkMode && "bg-[#02000f]"
-      } shadow-md w-full fixed top-0 left-0 flex items-center justify-between py-3 px-6`}
+      } shadow-md w-full fixed top-0 left-0 flex items-center justify-between py-3 px-6 z-20`}
     >
       <h1 className={`font-bold text-2xl ${darkMode && "text-white"}`}>
         {name}

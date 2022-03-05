@@ -7,28 +7,29 @@ contract Note{
         string text;
         string createdAt;
         bool deleted;
-    }
-    struct User{        
-        NoteItem[] _notes;
-        address _account;
+        bool pinned;
     }
 
-    mapping (address=>User) _users;
+    address _owner;  
+
+    NoteItem[] _notes;
 
     uint _noteCount;
 
     event NoteCreated(uint id, string text, string createdAt,uint index);
 
-    event NoteUpdated(uint id, string text);
+    event NoteUpdated(uint id, string text, string createdAt,bool deleted);
+
+    event NotePinned(uint id, bool pinned);
 
     event NoteDeleted(uint id);
 
     modifier onlyOwner(){
-        require(msg.sender == _users[msg.sender]._account,"Only the owner is authorized to perform this action");
+        require(msg.sender == _owner,"Only the owner is authorized to perform this action");
         _;
     }
     constructor(){
-        _users[msg.sender]._account = msg.sender;
+        _owner = msg.sender;
     }
 
     function createNote(string memory _text, string memory _createdAt)public onlyOwner() returns(uint id,
@@ -36,18 +37,15 @@ contract Note{
         string memory createdAt,
         bool deleted) {
         require(bytes(_text).length > 0, "Note text is required");
-        _noteCount++;
         NoteItem memory noteItem = NoteItem({
-            id: _noteCount,
+            id: _noteCount + 1,
             text: _text,
             createdAt: _createdAt,
-            deleted: false
-        });
-        if(_users[msg.sender]._notes.length < 1){
-            _users[msg.sender]._notes[0] = noteItem;
-        }else{
-            _users[msg.sender]._notes.push(noteItem);
-        }
+            deleted: false,
+            pinned: false
+        });     
+        _notes.push(noteItem);
+        _noteCount++;   
         emit NoteCreated(noteItem.id, noteItem.text, noteItem.createdAt, _noteCount - 1);
         return (
             noteItem.id,
@@ -61,12 +59,14 @@ contract Note{
         string memory text,
         string memory createdAt,
         bool deleted) {        
-        NoteItem memory noteItem = _users[msg.sender]._notes[_id];
+        NoteItem memory noteItem = _notes[_id];
         noteItem.text = _text;
-        _users[msg.sender]._notes[_id] = noteItem;
+        _notes[_id] = noteItem;
         emit NoteUpdated(
             noteItem.id,
-            noteItem.text
+            noteItem.text,
+            noteItem.createdAt,
+            noteItem.deleted
             );
         return (
             noteItem.id,
@@ -77,8 +77,9 @@ contract Note{
     }
 
     function removeNote(uint _id) public onlyOwner() {
-        NoteItem memory noteItem = _users[msg.sender]._notes[_id];
+        NoteItem memory noteItem = _notes[_id];
         noteItem.deleted = true;
+        _notes[_id] = noteItem;
         emit NoteDeleted(_id);
     }
 
@@ -86,7 +87,7 @@ contract Note{
         string memory text,
         string memory createdAt,
         bool deleted){
-        NoteItem memory noteItem = _users[msg.sender]._notes[_id];
+        NoteItem memory noteItem = _notes[_id];
         return (
             noteItem.id,
             noteItem.text,
@@ -96,10 +97,17 @@ contract Note{
     }
     
     function getAllNotes() public view returns(NoteItem[] memory notes){
-        return _users[msg.sender]._notes;
+        return _notes;
     }
 
     function getNoteCount() public view returns(uint count){
         return _noteCount;
+    }
+
+    function pinNote(uint _id,bool _pinned) public  {
+        NoteItem memory noteItem = _notes[_id];
+        noteItem.pinned = _pinned;
+        _notes[_id] = noteItem;     
+        emit NotePinned(_id,noteItem.pinned);  
     }
 }

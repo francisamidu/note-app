@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import Web3 from "web3";
-const web3 = new Web3("http://localhost:7545");
+const web3 = new Web3("http://localhost:9545");
 
 const ContractContext = createContext(null);
 const ContractProvider = ({
@@ -18,7 +18,7 @@ const ContractProvider = ({
   const [accounts, setAccounts] = useState([]);
   useEffect(() => {
     //Blockchain config
-    const contractAddress = "0x2Ba0674286dE27A0909a1e4b36ea2Fa3947e4C1C";
+    const contractAddress = "0x3Df96e473a07868776Ce7A4fE16424502aBDD7c5";
     const noteContract = new web3.eth.Contract(
       contractABI.abi,
       contractAddress

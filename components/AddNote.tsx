@@ -15,7 +15,7 @@ const AddNote = ({ addNote, note, updateNote }: any) => {
     }
   };
   return (
-    <div className="bg-blue-200 rounded py-4 px-4 flex flex-col justify-between  min-h-[175px] h-[175px] min-w-[300px] max-w-[320px]">
+    <div className="bg-blue-200 rounded py-4 px-4 flex flex-col justify-between  max-h-[165px] min-h-[150px] h-[175px] min-w-[300px] max-w-[320px]">
       <textarea
         className="bg-inherit border-none resize-none outline-none w-full"
         name=""

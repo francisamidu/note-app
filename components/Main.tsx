@@ -9,7 +9,7 @@ const Main = () => {
   const [newNotes, setNewNotes] = useState(notes);
   const [notification, setNotification] = useState<{
     message: string;
-    type: "MESSAGE" | "ERROR" | "SUCCESS" | "";
+    type: "LOADING" | "ERROR" | "SUCCESS" | "";
   }>({
     message: "",
     type: "",
@@ -46,7 +46,10 @@ const Main = () => {
   }, [notes]);
   useEffect(() => {
     if (notification?.message && notification?.type) {
-      toast(notification.message);
+      const { message, type } = notification;
+      type === "LOADING" && toast.loading(message);
+      type === "ERROR" && toast.error(message);
+      type === "SUCCESS" && toast.success(message);
     }
   }, [notification]);
 
@@ -54,17 +57,7 @@ const Main = () => {
     <main
       className={darkMode ? "bg-[#030313]  transition-colors duration-100" : ""}
     >
-      {notification.message && (
-        <ToastContainer
-          className={
-            notification.type === "ERROR"
-              ? "text-red-200"
-              : notification.type === "MESSAGE"
-              ? "text-blue-200"
-              : "text-green-200"
-          }
-        />
-      )}
+      {notification.message && <ToastContainer />}
       <Nav
         setDarkMode={setDarkMode}
         darkMode={darkMode}

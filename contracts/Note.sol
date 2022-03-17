@@ -32,10 +32,7 @@ contract Note{
         _owner = msg.sender;
     }
 
-    function createNote(string memory _text, string memory _createdAt)public onlyOwner() returns(uint id,
-        string memory text,
-        string memory createdAt,
-        bool deleted) {
+    function createNote(string memory _text, string memory _createdAt)public onlyOwner() {
         require(bytes(_text).length > 0, "Note text is required");
         NoteItem memory noteItem = NoteItem({
             id: _noteCount + 1,
@@ -46,19 +43,10 @@ contract Note{
         });     
         _notes.push(noteItem);
         _noteCount++;   
-        emit NoteCreated(noteItem.id, noteItem.text, noteItem.createdAt, _noteCount - 1);
-        return (
-            noteItem.id,
-            noteItem.text,
-            noteItem.createdAt,
-            noteItem.deleted            
-        );
+        emit NoteCreated(noteItem.id, noteItem.text, noteItem.createdAt, _noteCount - 1);       
     }
 
-    function updateNote(uint _id, string memory _text) public onlyOwner() returns(uint id,
-        string memory text,
-        string memory createdAt,
-        bool deleted) {        
+    function updateNote(uint _id, string memory _text) public onlyOwner() {        
         NoteItem memory noteItem = _notes[_id];
         noteItem.text = _text;
         _notes[_id] = noteItem;
@@ -67,13 +55,7 @@ contract Note{
             noteItem.text,
             noteItem.createdAt,
             noteItem.deleted
-            );
-        return (
-            noteItem.id,
-            noteItem.text,
-            noteItem.createdAt,
-            noteItem.deleted
-        );
+            );        
     }
 
     function removeNote(uint _id) public onlyOwner() {

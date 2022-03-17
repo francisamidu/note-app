@@ -11,7 +11,7 @@ const NoteList = ({
   setNotification,
   sortNotes,
 }) => {
-  const { contract, accounts, web3 } = useContract();
+  const { contract } = useContract();
   const [note, setNote] = useState<{
     id: any;
     createdAt: any;
@@ -23,19 +23,12 @@ const NoteList = ({
     deleted: false,
     text: "",
   });
-  const txObject = {
-    from: accounts[0],
-    gas: Math.round(6721975 / 2),
-    gasPrice: Math.round(67219750 / 2),
-  };
 
   const fetchNotes = async () => {
     if (contract) {
-      const {
-        methods: { getAllNotes },
-      } = contract;
+      const { getAllNotes } = contract;
       try {
-        const response = await getAllNotes().call();
+        const response = await getAllNotes();
         const notes = response
           .filter((r) => !r["deleted"])
           .map((r) => formatNote(r));
@@ -70,25 +63,21 @@ const NoteList = ({
   };
   const handleAddNote = async (text: string) => {
     if (contract) {
-      const {
-        methods: { createNote },
-      } = contract;
-      addNotification("Creating a new note..", "MESSAGE", 1000);
+      const { createNote } = contract;
+      addNotification("Creating a new note..", "LOADING", 1000);
       try {
         const res = await createNote(
           text,
           new Date("2021 05 05").toDateString()
-        ).send(txObject);
-        const {
-          events: {
-            NoteCreated: { returnValues },
-          },
-        } = res;
+        );
+        const tx = await res.wait();
+        const { events } = tx;
+        const { args } = events[0];
         const note = {
-          id: returnValues["id"],
-          createdAt: returnValues["createdAt"],
+          id: args["id"],
+          createdAt: args["createdAt"],
           deleted: false,
-          text: returnValues["text"],
+          text: args["text"],
         };
         setNotes([...notes, note]);
         setTimeout(() => {
@@ -106,34 +95,28 @@ const NoteList = ({
     }
   };
   const handleDeleteNote = async (id: number) => {
-    const {
-      methods: { removeNote },
-    } = contract;
+    const { removeNote } = contract;
     try {
-      await removeNote(id - 1).send(txObject);
+      await removeNote(id - 1);
       const newNotes = notes.filter((note) => note.id !== id);
       setNotes(newNotes);
-      addNotification("Note has been removed", "MESSAGE");
+      addNotification("Note has been removed", "SUCCESS");
     } catch {
       addNotification("Couldn't delete note", "ERROR");
     }
   };
   const handleUpdateNote = async (text: string) => {
-    const {
-      methods: { updateNote },
-    } = contract;
+    const { updateNote } = contract;
     try {
-      const res = await updateNote(note.id - 1, text).send(txObject);
-      const {
-        events: {
-          NoteUpdated: { returnValues },
-        },
-      } = res;
+      const res = await updateNote(note.id - 1, text);
+      const tx = await res.wait();
+      const { events } = tx;
+      const { args } = events[0];
       const newNote = {
-        id: returnValues["id"],
-        createdAt: returnValues["createdAt"],
-        deleted: returnValues["deleted"] || false,
-        text: returnValues["text"],
+        id: args["id"],
+        createdAt: args["createdAt"],
+        deleted: args["deleted"] || false,
+        text: args["text"],
       };
       const newNotes = notes.map((n) => {
         if (n.id === note.id) {
@@ -155,7 +138,7 @@ const NoteList = ({
   };
 
   return (
-    <section className="note-list md:max-w-screen-xl md:mx-auto min-h-screen pt-4 grid px-4 w-full">
+    <section className="note-list md:max-w-screen-xl md:mx-auto min-h-screen pt-10 mt-10 grid px-4 w-full">
       {notes.map((note, index) => (
         <Note
           darkMode={darkMode}

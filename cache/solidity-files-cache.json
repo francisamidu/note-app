@@ -1,0 +1,75 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "E:\\Genius\\Dev\\web\\blockchain-projects\\note-app\\contracts\\Migrations.sol": {
+      "lastModificationDate": 1645282946240,
+      "contentHash": "985cf0dbbfb60850399f110a833e4891",
+      "sourceName": "contracts/Migrations.sol",
+      "solcConfig": {
+        "version": "0.8.11",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "0.8.11"
+      ],
+      "artifacts": [
+        "Migrations"
+      ]
+    },
+    "E:\\Genius\\Dev\\web\\blockchain-projects\\note-app\\contracts\\Note.sol": {
+      "lastModificationDate": 1646511758969,
+      "contentHash": "592417ee2a544fc50fa5983b94df587a",
+      "sourceName": "contracts/Note.sol",
+      "solcConfig": {
+        "version": "0.8.11",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "0.8.11"
+      ],
+      "artifacts": [
+        "Note"
+      ]
+    }
+  }
+}

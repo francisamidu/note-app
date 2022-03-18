@@ -7,8 +7,8 @@ module.exports = {
       chainId: 1337,
     },
     ropsten: {
-      url: `https://ropsten.infura.io/v3/${process.env.INFURA_ID}`,
-      accounts: [`${process.env.PRIVATE_KEY}}`],
+      url: `https://ropsten.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`,
+      accounts: [`${process.env.NEXT_PUBLIC_PRIVATE_KEY}}`],
     },
   },
 };

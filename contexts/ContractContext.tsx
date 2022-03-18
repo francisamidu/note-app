@@ -17,9 +17,9 @@ const ContractProvider = ({
   const contractABI = require("../artifacts/contracts/Note.sol/Note.json");
   useEffect(() => {
     //Blockchain config
-    const contractAddress = `${process.env.CONTRACT_ADDRESS}`;
+    const contractAddress = `${process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}`;
     const provider = new ethers.providers.JsonRpcProvider(
-      `https://ropsten.infura.io/v3/${process.env.INFURA_ID}`
+      `https://ropsten.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`
     );
     provider.listAccounts().then((accs) => setAccounts(accs));
     const signer = provider.getSigner();

@@ -34,8 +34,7 @@ const NoteList = ({
           .map((r) => formatNote(r));
         setNotes(sortNotes(notes, "ASC"));
       } catch (error) {
-        consolelog(contract)
-        console.log(error)
+        console.log(contract)
         addNotification(
           "Couldn't fetch your notes. Please make sure you have an internet connection",
           "ERROR"

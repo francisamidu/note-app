@@ -7,6 +7,7 @@ import React, {
   useState,
 } from "react";
 import { ethers } from "ethers";
+import { getProvider } from "../helpers";
 
 const ContractContext = createContext(null);
 const ContractProvider = ({
@@ -18,9 +19,7 @@ const ContractProvider = ({
   useEffect(() => {
     //Blockchain config
     const contractAddress = `${process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}`;
-    const provider = new ethers.providers.JsonRpcProvider(
-      `https://ropsten.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_ID}`
-    );
+    const provider = getProvider();
     provider.listAccounts().then((accs) => setAccounts(accs));
     const signer = provider.getSigner();
     const noteContract = new ethers.Contract(

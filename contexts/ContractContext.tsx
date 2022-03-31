@@ -7,21 +7,25 @@ import React, {
   useState,
 } from "react";
 import { ethers } from "ethers";
-import { getProvider } from "../helpers";
+import { getEnvVariable, getProvider } from "../helpers";
 
 const ContractContext = createContext(null);
 const ContractProvider = ({
   children,
 }: PropsWithChildren<Partial<ReactNode>>) => {
   const [contract, setContract] = useState(null);
-  const [accounts, setAccounts] = useState([]);
   const contractABI = require("../artifacts/contracts/Note.sol/Note.json");
   useEffect(() => {
     //Blockchain config
     const contractAddress = `${process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}`;
+    const wallet = ethers.Wallet.fromMnemonic(
+      getEnvVariable("NEXT_PUBLIC_MNEMONIC", "")
+    );
+
     const provider = getProvider();
-    provider.listAccounts().then((accs) => setAccounts(accs));
-    const signer = provider.getSigner();
+
+    const signer = wallet.connect(provider);
+
     const noteContract = new ethers.Contract(
       contractAddress,
       contractABI.abi,
@@ -31,7 +35,7 @@ const ContractProvider = ({
   }, [undefined]);
 
   return (
-    <ContractContext.Provider value={{ contract, accounts }}>
+    <ContractContext.Provider value={{ contract }}>
       {children}{" "}
     </ContractContext.Provider>
   );

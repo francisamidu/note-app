@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import { ethers } from "ethers";
-import { getEnvVariable, getProvider } from "../helpers";
+import {  getProvider } from "../helpers";
 
 const ContractContext = createContext(null);
 const ContractProvider = ({
@@ -19,7 +19,7 @@ const ContractProvider = ({
     //Blockchain config
     const contractAddress = `${process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}`;
     const wallet = ethers.Wallet.fromMnemonic(
-      process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
+      process.env.NEXT_PUBLIC_MNEMONIC
     );
 
     const provider = getProvider();

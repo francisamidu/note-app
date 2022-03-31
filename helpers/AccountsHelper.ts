@@ -17,7 +17,7 @@ class AccountHelper {
     // const provider = new ethers.providers.JsonRpcProvider();
     const provider = new ethers.providers.InfuraProvider(
       "ropsten",
-      AccountHelper.getEnvVariable("NEXT_PUBLIC_INFURA_ID", "rosten")
+      process.env.NEXT_PUBLIC_INFURA_ID
     );
     return provider;
   }
@@ -25,7 +25,7 @@ class AccountHelper {
   // Helper method for fetching a wallet account using an environment variable for the PK
   static getAccount() {
     return new ethers.Wallet(
-      AccountHelper.getEnvVariable("NEXT_PUBLIC_PRIVATE_KEY", ""),
+      process.env.NEXT_PUBLIC_PRIVATE_KEY,
       AccountHelper.getProvider()
     );
   }

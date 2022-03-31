@@ -19,7 +19,7 @@ const ContractProvider = ({
     //Blockchain config
     const contractAddress = `${process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}`;
     const wallet = ethers.Wallet.fromMnemonic(
-      getEnvVariable("NEXT_PUBLIC_MNEMONIC", "")
+      process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
     );
 
     const provider = getProvider();

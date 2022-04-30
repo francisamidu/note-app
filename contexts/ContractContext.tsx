@@ -8,11 +8,13 @@ import React, {
 } from "react";
 import { ethers } from "ethers";
 import {  getProvider } from "../helpers";
+import getConfig from "next/config"
 
 const ContractContext = createContext(null);
 const ContractProvider = ({
   children,
 }: PropsWithChildren<Partial<ReactNode>>) => {
+  const { publicRuntimeConfig } = getConfig()
   const [contract, setContract] = useState(null);
   const contractABI = require("../artifacts/contracts/Note.sol/Note.json");
   useEffect(() => {
@@ -22,7 +24,9 @@ const ContractProvider = ({
       process.env.NEXT_PUBLIC_MNEMONIC
     );
 
-    const provider = getProvider();
+    const provider = new ethers.providers.JsonRpcProvider(
+        `https://ropsten.infura.io/v3/{process.env.}`
+    );
 
     const signer = wallet.connect(provider);
 

@@ -27,4 +27,5 @@ const App = ({ Component, PageProps }: AppPropsWithLayout) => {
   );
 };
 
+
 export default App;

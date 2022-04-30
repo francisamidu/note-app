@@ -14,18 +14,18 @@ const ContractContext = createContext(null);
 const ContractProvider = ({
   children,
 }: PropsWithChildren<Partial<ReactNode>>) => {
-  const { publicRuntimeConfig } = getConfig()
+  const { publicRuntimeConfig } = getConfig()  
   const [contract, setContract] = useState(null);
   const contractABI = require("../artifacts/contracts/Note.sol/Note.json");
   useEffect(() => {
     //Blockchain config
-    const contractAddress = `${process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}`;
+    const contractAddress = `${publicRuntimeConfig.CONTRACT_ADDRESS}`;
     const wallet = ethers.Wallet.fromMnemonic(
-      process.env.NEXT_PUBLIC_MNEMONIC
+      publicRuntimeConfig.MNEMONIC
     );
 
     const provider = new ethers.providers.JsonRpcProvider(
-        `https://ropsten.infura.io/v3/{process.env.}`
+        `https://ropsten.infura.io/v3/${publicRuntimeConfig.INFURA_ID}`
     );
 
     const signer = wallet.connect(provider);

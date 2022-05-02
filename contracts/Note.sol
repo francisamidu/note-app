@@ -10,11 +10,9 @@ contract Note{
         bool pinned;
     }
 
-    address _owner;  
+    mapping(address=>NoteItem) _notes;
 
-    NoteItem[] _notes;
-
-    uint _noteCount;
+    uint256 _noteCount;
 
     event NoteCreated(uint id, string text, string createdAt,uint index);
 
@@ -24,15 +22,7 @@ contract Note{
 
     event NoteDeleted(uint id);
 
-    modifier onlyOwner(){
-        require(msg.sender == _owner,"Only the owner is authorized to perform this action");
-        _;
-    }
-    constructor(){
-        _owner = msg.sender;
-    }
-
-    function createNote(string memory _text, string memory _createdAt)public onlyOwner() {
+    function createNote(string memory _text, string memory _createdAt)public {
         require(bytes(_text).length > 0, "Note text is required");
         NoteItem memory noteItem = NoteItem({
             id: _noteCount + 1,
@@ -41,12 +31,12 @@ contract Note{
             deleted: false,
             pinned: false
         });     
-        _notes.push(noteItem);
+        _notes[msg.sender] = noteItem;
         _noteCount++;   
         emit NoteCreated(noteItem.id, noteItem.text, noteItem.createdAt, _noteCount - 1);       
     }
 
-    function updateNote(uint _id, string memory _text) public onlyOwner() {        
+    function updateNote(uint _id, string memory _text) public {        
         NoteItem memory noteItem = _notes[_id];
         noteItem.text = _text;
         _notes[_id] = noteItem;
@@ -58,7 +48,7 @@ contract Note{
             );        
     }
 
-    function removeNote(uint _id) public onlyOwner() {
+    function removeNote(uint _id) public {
         NoteItem memory noteItem = _notes[_id];
         noteItem.deleted = true;
         _notes[_id] = noteItem;
@@ -76,11 +66,7 @@ contract Note{
             noteItem.createdAt,
             noteItem.deleted
         );
-    }
-    
-    function getAllNotes() public view returns(NoteItem[] memory notes){
-        return _notes;
-    }
+    }    
 
     function getNoteCount() public view returns(uint count){
         return _noteCount;

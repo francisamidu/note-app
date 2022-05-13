@@ -3,6 +3,7 @@ pragma solidity 0.8.11;
 
 contract Note{
     struct NoteItem{
+        address owner;
         uint id;
         string text;
         string createdAt;
@@ -10,9 +11,9 @@ contract Note{
         bool pinned;
     }
 
-    mapping(address=>NoteItem) _notes;
+    mapping(address=>NoteItem) public _notes;
 
-    uint256 _noteCount;
+    uint256 public _noteCount;
 
     event NoteCreated(uint id, string text, string createdAt,uint index);
 
@@ -29,7 +30,8 @@ contract Note{
             text: _text,
             createdAt: _createdAt,
             deleted: false,
-            pinned: false
+            pinned: false,
+            owner: msg.sender
         });     
         _notes[msg.sender] = noteItem;
         _noteCount++;   
